@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <assert.h>
- 
 typedef int (*CheckFunc)(float);
  
 typedef struct {
@@ -8,6 +7,10 @@ typedef struct {
     float value;
     const char *message;
 } Check;
+ 
+void printMessage(const char *message) {
+    printf("%s", message);
+}
  
 int isTemperatureInRange(float temperature) {
     return (temperature >= 0 && temperature <= 45);
@@ -30,7 +33,7 @@ int batteryIsOk(float temperature, float soc, float chargeRate) {
  
     for (int i = 0; i < sizeof(checks) / sizeof(checks[0]); ++i) {
         if (!checks[i].check(checks[i].value)) {
-            printf("%s", checks[i].message);
+            printMessage(checks[i].message);
             return 0;
         }
     }
@@ -41,6 +44,8 @@ int batteryIsOk(float temperature, float soc, float chargeRate) {
 int main() {
     assert(batteryIsOk(25, 70, 0.7));
     assert(!batteryIsOk(50, 85, 0));
+    assert(!batteryIsOk(30, 85, 0));
+    assert(!batteryIsOk(25, 70, 0.9));
     printf("All tests passed!\n");
     return 0;
 }
