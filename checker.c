@@ -25,12 +25,10 @@ int isChargeRateInRange(float chargeRate) {
     return (chargeRate <= 0.8);
 }
 
-int performChecks(Check checks[], int numChecks) {
-    for (int i = 0; i < numChecks; ++i) {
-        if (!checks[i].check(checks[i].value)) {
-            printMessage(checks[i].message);
-            return 0;
-        }
+int performCheck(Check check) {
+    if (!check.check(check.value)) {
+        printMessage(check.message);
+        return 0;
     }
     return 1;
 }
@@ -42,7 +40,13 @@ int batteryIsOk(float temperature, float soc, float chargeRate) {
         {isChargeRateInRange, chargeRate, "Charge Rate out of range!\n"}
     };
 
-    return performChecks(checks, sizeof(checks) / sizeof(checks[0]));
+    for (int i = 0; i < sizeof(checks) / sizeof(checks[0]); ++i) {
+        if (!performCheck(checks[i])) {
+            return 0;
+        }
+    }
+
+    return 1;
 }
 
 int main() {
