@@ -42,12 +42,15 @@ int checkAllParameters(const Check checks[], int numChecks) {
     return 1;
 }
 
+void initializeChecks(Check checks[], float temperature, float soc, float chargeRate) {
+    checks[0] = (Check){isTemperatureInRange, temperature, "Temperature out of range!\n"};
+    checks[1] = (Check){isSocInRange, soc, "State of Charge out of range!\n"};
+    checks[2] = (Check){isChargeRateInRange, chargeRate, "Charge Rate out of range!\n"};
+}
+
 int batteryIsOk(float temperature, float soc, float chargeRate) {
-    Check checks[] = {
-        {isTemperatureInRange, temperature, "Temperature out of range!\n"},
-        {isSocInRange, soc, "State of Charge out of range!\n"},
-        {isChargeRateInRange, chargeRate, "Charge Rate out of range!\n"}
-    };
+    Check checks[3];
+    initializeChecks(checks, temperature, soc, chargeRate);
     return checkAllParameters(checks, sizeof(checks) / sizeof(checks[0]));
 }
 
