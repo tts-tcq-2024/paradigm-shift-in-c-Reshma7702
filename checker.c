@@ -51,7 +51,7 @@ void initializeChecks(Check checks[], float temperature, float soc, float charge
 int batteryIsOk(float temperature, float soc, float chargeRate) {
     Check checks[3];
     initializeChecks(checks, temperature, soc, chargeRate);
-    return checkAllParameters(checks, sizeof(checks) / sizeof(checks[0]));
+    return checkAllParameters(checks, 3);
 }
 
 void runTests() {
