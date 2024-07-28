@@ -1,7 +1,7 @@
 #ifndef CHECK_H
 #define CHECK_H
 
-typedef int (*CheckFunc)(float, float);
+typedef int (*CheckFunc)(float);
 
 typedef struct {
     CheckFunc check;
@@ -13,10 +13,9 @@ typedef struct {
 } Check;
 
 void printMessage(const char *message);
-int isTemperatureInRange(float temperature, float tolerance);
-int isSocInRange(float soc, float tolerance);
-int isChargeRateInRange(float chargeRate, float tolerance);
-int performCheck(const Check* check);
+int isTemperatureInRange(float temperature);
+int isSocInRange(float soc);
+int isChargeRateInRange(float chargeRate);
+int performCheck(const Check* check, float minLimit, float maxLimit);
 
 #endif // CHECK_H
-
