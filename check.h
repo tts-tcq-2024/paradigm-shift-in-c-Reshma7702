@@ -21,3 +21,4 @@ void checkLowWarning(const Check* check, float minLimit);
 void checkHighWarning(const Check* check, float maxLimit);
 
 #endif // CHECK_H
+
