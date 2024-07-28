@@ -23,9 +23,10 @@ int performCheck(const Check* check, float minLimit, float maxLimit) {
         printMessage(check->message);
         return 0;
     } else {
-        if (check->value <= minLimit + check->tolerance) {
+        if (check->warningLowMessage && check->value <= minLimit + check->tolerance) {
             printMessage(check->warningLowMessage);
-        } else if (check->value >= maxLimit - check->tolerance) {
+        }
+        if (check->warningHighMessage && check->value >= maxLimit - check->tolerance) {
             printMessage(check->warningHighMessage);
         }
     }
