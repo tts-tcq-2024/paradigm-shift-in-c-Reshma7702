@@ -18,17 +18,20 @@ int isChargeRateInRange(float chargeRate) {
     return (chargeRate <= 0.8);
 }
 
+void checkWarnings(const Check* check, float minLimit, float maxLimit) {
+    if (check->warningLowMessage && check->value <= minLimit + check->tolerance) {
+        printMessage(check->warningLowMessage);
+    }
+    if (check->warningHighMessage && check->value >= maxLimit - check->tolerance) {
+        printMessage(check->warningHighMessage);
+    }
+}
+
 int performCheck(const Check* check, float minLimit, float maxLimit) {
     if (!check->check(check->value)) {
         printMessage(check->message);
         return 0;
-    } else {
-        if (check->warningLowMessage && check->value <= minLimit + check->tolerance) {
-            printMessage(check->warningLowMessage);
-        }
-        if (check->warningHighMessage && check->value >= maxLimit - check->tolerance) {
-            printMessage(check->warningHighMessage);
-        }
     }
+    checkWarnings(check, minLimit, maxLimit);
     return 1;
 }
