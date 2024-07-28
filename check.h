@@ -19,3 +19,4 @@ int isChargeRateInRange(float chargeRate, float tolerance);
 int performCheck(const Check* check);
 
 #endif // CHECK_H
+
