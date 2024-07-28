@@ -1,34 +1,31 @@
 #include "check.h"
 #include <stdio.h>
+#include <stddef.h>
 
 void printMessage(const char *message) {
     printf("%s", message);
 }
 
-int isTemperatureInRange(float temperature, float tolerance) {
+int isTemperatureInRange(float temperature) {
     return (temperature >= 0 && temperature <= 45);
 }
 
-int isSocInRange(float soc, float tolerance) {
+int isSocInRange(float soc) {
     return (soc >= 20 && soc <= 80);
 }
 
-int isChargeRateInRange(float chargeRate, float tolerance) {
+int isChargeRateInRange(float chargeRate) {
     return (chargeRate <= 0.8);
 }
 
-int performCheck(const Check* check) {
-    int result = check->check(check->value, check->tolerance);
-    
-    if (result) {
-        if (check->value <= check->tolerance) {
-            printMessage(check->warningLowMessage);
-        } else if (check->value >= (45 - check->tolerance)) {
-            printMessage(check->warningHighMessage);
-        }
-    } else {
+int performCheck(const Check* check, float minLimit, float maxLimit) {
+    if (!check->check(check->value)) {
         printMessage(check->message);
+        return 0;
+    } else if (check->value <= minLimit + check->tolerance) {
+        printMessage(check->warningLowMessage);
+    } else if (check->value >= maxLimit - check->tolerance) {
+        printMessage(check->warningHighMessage);
     }
-    
-    return result;
+    return 1;
 }
