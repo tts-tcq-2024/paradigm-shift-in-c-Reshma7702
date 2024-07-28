@@ -1,5 +1,6 @@
 #include "battery.h"
 #include "check.h"
+#include <stddef.h>
 
 int batteryIsOk(float temperature, float soc, float chargeRate) {
     Check checks[] = {
@@ -8,8 +9,11 @@ int batteryIsOk(float temperature, float soc, float chargeRate) {
         {isChargeRateInRange, chargeRate, 0.04, "Charge Rate out of range!\n", NULL, "Warning: Approaching high charge rate limit!\n"}
     };
 
+    float minLimits[] = {0, 20, 0};
+    float maxLimits[] = {45, 80, 0.8};
+
     for (int i = 0; i < sizeof(checks) / sizeof(checks[0]); ++i) {
-        if (!performCheck(&checks[i])) {
+        if (!performCheck(&checks[i], minLimits[i], maxLimits[i])) {
             return 0;
         }
     }
