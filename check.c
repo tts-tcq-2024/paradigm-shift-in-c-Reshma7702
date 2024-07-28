@@ -6,34 +6,29 @@ void printMessage(const char *message) {
 }
 
 int isTemperatureInRange(float temperature, float tolerance) {
-    if (temperature <= tolerance) {
-        printMessage("Warning: Approaching low temperature limit!\n");
-    } else if (temperature >= (45 - tolerance)) {
-        printMessage("Warning: Approaching high temperature limit!\n");
-    }
     return (temperature >= 0 && temperature <= 45);
 }
 
 int isSocInRange(float soc, float tolerance) {
-    if (soc <= (20 + tolerance)) {
-        printMessage("Warning: Approaching low SoC limit!\n");
-    } else if (soc >= (80 - tolerance)) {
-        printMessage("Warning: Approaching high SoC limit!\n");
-    }
     return (soc >= 20 && soc <= 80);
 }
 
 int isChargeRateInRange(float chargeRate, float tolerance) {
-    if (chargeRate >= (0.8 - tolerance)) {
-        printMessage("Warning: Approaching high charge rate limit!\n");
-    }
     return (chargeRate <= 0.8);
 }
 
 int performCheck(const Check* check) {
-    if (!check->check(check->value, check->tolerance)) {
+    int result = check->check(check->value, check->tolerance);
+    
+    if (result) {
+        if (check->value <= check->tolerance) {
+            printMessage(check->warningLowMessage);
+        } else if (check->value >= (45 - check->tolerance)) {
+            printMessage(check->warningHighMessage);
+        }
+    } else {
         printMessage(check->message);
-        return 0;
     }
-    return 1;
+    
+    return result;
 }
