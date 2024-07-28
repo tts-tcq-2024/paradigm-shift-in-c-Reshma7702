@@ -17,6 +17,7 @@ int isTemperatureInRange(float temperature);
 int isSocInRange(float soc);
 int isChargeRateInRange(float chargeRate);
 int performCheck(const Check* check, float minLimit, float maxLimit);
-void checkWarnings(const Check* check, float minLimit, float maxLimit);
+void checkLowWarning(const Check* check, float minLimit);
+void checkHighWarning(const Check* check, float maxLimit);
 
 #endif // CHECK_H
