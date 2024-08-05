@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <stddef.h>
 
+int isTemperatureInRange(float temperature);
+int isSocInRange(float soc);
+int isChargeRateInRange(float chargeRate);
+
 void printMessage(const char *message) {
     printf("%s", message);
 }
