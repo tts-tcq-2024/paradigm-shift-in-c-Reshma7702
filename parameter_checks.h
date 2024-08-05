@@ -1,5 +1,5 @@
-#ifndef CHECK_H
-#define CHECK_H
+#ifndef PARAMETER_CHECKS_H
+#define PARAMETER_CHECKS_H
 
 typedef int (*CheckFunc)(float);
 
@@ -10,10 +10,13 @@ typedef struct {
     const char *message;
     const char *warningLowMessage;
     const char *warningHighMessage;
-} Check;
+} ParameterCheck;
 
 void printMessage(const char *message);
-int performCheck(const Check* check, float minLimit, float maxLimit);
+int performCheck(const ParameterCheck* check, float minLimit, float maxLimit);
 
-#endif // CHECK_H
+int isTemperatureInRange(float temperature);
+int isSocInRange(float soc);
+int isChargeRateInRange(float chargeRate);
 
+#endif // PARAMETER_CHECKS_H
