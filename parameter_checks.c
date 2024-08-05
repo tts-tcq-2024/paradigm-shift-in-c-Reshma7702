@@ -5,6 +5,9 @@
 int isTemperatureInRange(float temperature);
 int isSocInRange(float soc);
 int isChargeRateInRange(float chargeRate);
+void checkLowWarning(const Check* check, float minLimit);
+void checkHighWarning(const Check* check, float maxLimit);
+
 
 void printMessage(const char *message) {
     printf("%s", message);
