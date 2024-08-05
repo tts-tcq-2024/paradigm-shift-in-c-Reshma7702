@@ -1,13 +1,5 @@
 #include "parameter_checks.h"
 #include <stdio.h>
-#include <stddef.h>
-
-int isTemperatureInRange(float temperature);
-int isSocInRange(float soc);
-int isChargeRateInRange(float chargeRate);
-void checkLowWarning(const Check* check, float minLimit);
-void checkHighWarning(const Check* check, float maxLimit);
-
 
 void printMessage(const char *message) {
     printf("%s", message);
@@ -25,20 +17,20 @@ int isChargeRateInRange(float chargeRate) {
     return (chargeRate <= 0.8);
 }
 
-void checkLowWarning(const Check* check, float minLimit) {
+void checkLowWarning(const ParameterCheck* check, float minLimit) {
     if (check->warningLowMessage && check->value <= minLimit + check->tolerance) {
         printMessage(check->warningLowMessage);
     }
 }
 
-void checkHighWarning(const Check* check, float maxLimit) {
+void checkHighWarning(const ParameterCheck* check, float maxLimit) {
     if (check->warningHighMessage && check->value >= maxLimit - check->tolerance) {
         printMessage(check->warningHighMessage);
     }
 }
 
-int performCheck(const Check* check, float minLimit, float maxLimit) {
-    if (!check->check(check->value)) {
+int performCheck(const ParameterCheck* check, float minLimit, float maxLimit) {
+    if (check->check(check->value) == 0) {
         printMessage(check->message);
         return 0;
     }
