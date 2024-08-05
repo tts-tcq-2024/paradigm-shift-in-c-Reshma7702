@@ -2,6 +2,15 @@
 #include "parameter_checks.h"
 #include <stddef.h>
 
+int performAllChecks(Check checks[], float minLimits[], float maxLimits[], int size) {
+    for (int i = 0; i < size; ++i) {
+        if (performCheck(&checks[i], minLimits[i], maxLimits[i]) == 0) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
 int batteryIsOk(float temperature, float soc, float chargeRate) {
     Check checks[] = {
         {isTemperatureInRange, temperature, 2.25, "Temperature out of range!\n", "Warning: Approaching low temperature limit!\n", "Warning: Approaching high temperature limit!\n"},
@@ -12,11 +21,5 @@ int batteryIsOk(float temperature, float soc, float chargeRate) {
     float minLimits[] = {0, 20, 0};
     float maxLimits[] = {45, 80, 0.8};
 
-    for (int i = 0; i < sizeof(checks) / sizeof(checks[0]); ++i) {
-        if (!performCheck(&checks[i], minLimits[i], maxLimits[i])) {
-            return 0;
-        }
-    }
-
-    return 1;
+    return performAllChecks(checks, minLimits, maxLimits, sizeof(checks) / sizeof(checks[0]));
 }
